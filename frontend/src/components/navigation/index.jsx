@@ -43,14 +43,28 @@ export default class Navigation extends Component {
                   Hem
                 </NavLink>
               </NavItem>
+              {true ? ( // Change this later to hide when logged in
+                <NavItem>
+                  <NavLink
+                    to="/login"
+                    exact
+                    activeClassName="active"
+                    tag={RRNavLink}
+                  >
+                    Login
+                  </NavLink>
+                </NavItem>
+              ) : (
+                ''
+              )}
               <NavItem>
                 <NavLink
-                  to="/login"
+                  to="/profile"
                   exact
                   activeClassName="active"
                   tag={RRNavLink}
                 >
-                  Login
+                  Profile
                 </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>

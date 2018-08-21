@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText
+} from 'reactstrap';
+import { Redirect } from 'react-router-dom';
+Redirect;
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -8,21 +18,45 @@ export default class LoginForm extends Component {
       hello: 'hello world'
     };
   }
-  render() {
+
+  render = () => {
+    // Protect routes from people already logged in
+    if (this.props.isLoggedIn) return <Redirect to="/profile" />;
+
     return (
       <div>
         <Form>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Din email"
-            />
+          <FormGroup row>
+            <Label for="exampleEmail" sm={2}>
+              Email
+            </Label>
+            <Col sm={10}>
+              <Input
+                type="email"
+                name="email"
+                id="exampleEmail"
+                placeholder="with a placeholder"
+              />
+            </Col>
           </FormGroup>
+          <FormGroup row>
+            <Label for="examplePassword" sm={2}>
+              Password
+            </Label>
+            <Col sm={10}>
+              <Input
+                type="password"
+                name="password"
+                id="examplePassword"
+                placeholder="password placeholder"
+              />
+            </Col>
+          </FormGroup>
+          <Button color="primary" onClick={this.props.loginLogic}>
+            Logga in
+          </Button>
         </Form>
       </div>
     );
-  }
+  };
 }
