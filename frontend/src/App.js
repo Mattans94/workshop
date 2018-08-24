@@ -38,7 +38,7 @@ class App extends Component {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(formData)
+      body: formData
     })
       .then(res => res.json())
       .then(res => {
