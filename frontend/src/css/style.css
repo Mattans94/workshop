@@ -1,0 +1,12 @@
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.registerForm input.invalid {
+  border: 2px solid red;
+}
+
+.registerForm input.valid {
+  border: 2px solid green;
+}

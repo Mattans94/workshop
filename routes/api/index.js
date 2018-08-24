@@ -5,6 +5,7 @@ const User = require('../../models/User');
 
 //home page
 router.post('/registration', (req, res, next) => {
+  console.log(req.body);
   User.findOne({
     email: req.body.email
   }).then(user => {
@@ -19,7 +20,7 @@ router.post('/registration', (req, res, next) => {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        age: parseInt(req.body.age)
+        age: req.body.age
       })
         .save()
         .then(newUser => {
@@ -27,7 +28,8 @@ router.post('/registration', (req, res, next) => {
             success: true,
             user: newUser
           });
-        });
+        })
+        .catch(err => console.log(err));
     }
   });
 });

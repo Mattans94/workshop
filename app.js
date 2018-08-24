@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 4000;
 const routes = require('./routes/api');
 const keys = require('./config/keys');
@@ -14,6 +15,10 @@ mongoose
   .then(() => {
     console.log('Mongoose connected');
   });
+
+// CORS setup
+app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/frontend/build')); // Serve static files from React build folder

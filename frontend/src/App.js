@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from './components/Register';
+import './css/style.css';
 
 class App extends Component {
   state = {
@@ -32,13 +33,12 @@ class App extends Component {
 
   register = formData => {
     console.log(formData);
-    fetch('/api/registration', {
+    fetch('http://localhost:4000/api/registration', {
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: formData
+      body: JSON.stringify(formData)
     })
       .then(res => res.json())
       .then(res => {
