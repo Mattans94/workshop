@@ -1,19 +1,82 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Login from './components/Login';
+import Register from './components/Register';
 
 class App extends Component {
+  state = {
+    user: null
+  };
+
+  componentDidMount() {
+    // this.checkIfLoggedIn();
+  }
+
+  login = formData => {
+    this.setState({
+      user: formData
+    });
+  };
+
+  checkIfLoggedIn = () => {
+    const dummyData = {
+      email: 'dummy@email.com'
+    };
+    if (dummyData) {
+      this.setState({
+        user: dummyData
+      });
+    }
+  };
+
+  register = formData => {
+    fetch('/api/registration', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(res => this.setState(res))
+      .catch(err => console.log(err));
+  };
+
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Router>
+        <div>
+          <Navigation user={this.state.user} />
+          {this.state.user ? (
+            <p>
+              You are:{' '}
+              {`${this.state.user.firstName} ${this.state.user.lastName}`}
+            </p>
+          ) : (
+            ''
+          )}
+          <div className="container">
+            <Switch>
+              <Route
+                path="/login"
+                exact
+                component={() => (
+                  <Login login={this.login} user={this.state.user} />
+                )}
+              />
+              <Route
+                path="/register"
+                exact
+                component={() => (
+                  <Register user={this.state.user} register={this.register} />
+                )}
+              />
+            </Switch>
+          </div>
+        </div>
+      </Router>
     );
   }
 }
