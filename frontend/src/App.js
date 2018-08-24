@@ -31,12 +31,20 @@ class App extends Component {
   };
 
   register = formData => {
+    console.log(formData);
     fetch('/api/registration', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      body: formData
+      body: JSON.stringify(formData)
     })
       .then(res => res.json())
-      .then(res => this.setState(res))
+      .then(res => {
+        this.setState(res);
+        console.log(res);
+      })
       .catch(err => console.log(err));
   };
 

@@ -10,7 +10,8 @@ export default class Register extends Component {
     lastName: ''
   };
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     this.props.register(this.state);
   };
 
@@ -22,7 +23,7 @@ export default class Register extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSumbit}>
+      <form onSubmit={this.handleSubmit}>
         <div className="form-group row">
           <label htmlFor="email" className="col-sm-2 col-form-label">
             Email
