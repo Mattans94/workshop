@@ -22,43 +22,45 @@ export default class Login extends Component {
 
   render() {
     if (this.props.user) {
-      return <Redirect to="/" />;
+      return <Redirect to="/profil" />;
     }
 
     return (
-      <form onSubmit={this.handleSumbit}>
-        <div className="form-group row">
-          <label htmlFor="staticEmail" className="col-sm-2 col-form-label">
-            Email
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              placeholder="Din mail"
-              onChange={this.handleChange}
-            />
+      <div className="container login-container">
+        <form onSubmit={this.handleSumbit} className="loginForm">
+          <div className="form-group row">
+            <label htmlFor="staticEmail" className="col-sm-2 col-form-label">
+              Email
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                placeholder="Din mail"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
-            Password
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
+              Password
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <button className="btn btn-primary" type="submit">
-          Logga in
-        </button>
-      </form>
+          <button className="btn btn-block" type="submit">
+            Logga in
+          </button>
+        </form>
+      </div>
     );
   }
 }

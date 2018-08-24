@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 class Navigation extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark navbar-trans">
         <a className="navbar-brand" href="#">
           Navbar
         </a>
@@ -62,6 +62,24 @@ class Navigation extends Component {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/login">
                   Logga in
+                </NavLink>
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.user === null ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/register">
+                  Registrera
+                </NavLink>
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.user ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/profil">
+                  {this.props.user.firstName}
                 </NavLink>
               </li>
             ) : (

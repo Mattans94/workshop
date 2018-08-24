@@ -61,4 +61,11 @@ router.post('/profile', (req, res) => {
   // HITTA ANVÄNDARE I DB
 });
 
+// Simulated login, remove this endpoint later on
+router.get('/login', (req, res) => {
+  User.findById('5b8061dd6212216a70ff9bd5').then(user => {
+    res.json(user);
+  });
+});
+
 module.exports = router;

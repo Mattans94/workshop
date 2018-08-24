@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class Register extends Component {
   state = {
     email: '',
     password: '',
-    confirmPass: '',
+    confirmPassword: '',
     age: '',
     firstName: '',
     lastName: '',
-    invalidForm: true
+    invalidForm: true,
+    userExist: false
   };
+
+  copyState;
+
+  componentDidMount() {
+    console.log('HEEELLOO MOUNT');
+    this.setState(this.copyState);
+  }
+
+  componentWillMount() {
+    this.copyState = this.state;
+  }
 
   inputStyle = {
     invalid: {
@@ -22,11 +35,17 @@ export default class Register extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.register(this.state);
+    console.log('Tjena', this.state);
+    if (!this.props.register(this.state)) {
+      this.setState({
+        userExist: true
+      });
+    }
+    console.log(this.state);
   };
 
   handleChange = e => {
-    console.log('Changed!', e.target.id);
+    console.log('Changed!', e.target.id, e.target.value);
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -40,7 +59,7 @@ export default class Register extends Component {
       lastName: /^[a-zåäöA-ZÅÄÖ]{2,20}$/,
       age: /^[\d]{1,2}$/,
       password: /^[\w\s@-]{6,20}$/,
-      confirmPass: new RegExp('^' + this.state.password + '$')
+      confirmPassword: new RegExp('^' + this.state.password + '$')
     };
 
     const regex = patterns[e.target.id];
@@ -58,113 +77,125 @@ export default class Register extends Component {
     if (invalidInputs.length) {
       // If we have any invalid input field, set invalidForm to true
       this.setState({
-        ...this.state,
         invalidForm: true
       });
-    } else if (validInputs.length === Object.keys(this.state).length - 1) {
+    } else if (validInputs.length === Object.keys(this.state).length - 2) {
       // If we have as many valid fields as we have state properties - 1, set invalidForm to false
       this.setState({
-        ...this.state,
         invalidForm: false
       });
     }
   };
 
   render() {
+    if (this.props.user) {
+      return <Redirect to="/profil" />;
+    }
+
     return (
-      <form onSubmit={this.handleSubmit} className="registerForm">
-        <div className="form-group row">
-          <label htmlFor="email" className="col-sm-2 col-form-label">
-            Email
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              placeholder="Din mail"
-              onChange={this.handleChange}
-            />
+      <div className="container register-container">
+        <form onSubmit={this.handleSubmit} className="registerForm">
+          {this.state.userExist ? (
+            <div className="user-exist">
+              Det finns redan en användare registrerad med den angivna
+              mailadressen
+            </div>
+          ) : (
+            ''
+          )}
+          <div className="form-group row">
+            <label htmlFor="email" className="col-sm-2 col-form-label">
+              Email
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                placeholder="Din mail"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="firstName" className="col-sm-2 col-form-label">
-            Förnamn
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="firstName"
-              placeholder="Förnamn"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="firstName" className="col-sm-2 col-form-label">
+              Förnamn
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="firstName"
+                placeholder="Förnamn"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="lastName" className="col-sm-2 col-form-label">
-            Efternamn
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="lastName"
-              placeholder="Efternamn"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="lastName" className="col-sm-2 col-form-label">
+              Efternamn
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="lastName"
+                placeholder="Efternamn"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="age" className="col-sm-2 col-form-label">
-            Ålder
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="age"
-              placeholder="Ålder"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="age" className="col-sm-2 col-form-label">
+              Ålder
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="age"
+                placeholder="Ålder"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
-            Lösenord
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Lösenord"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
+              Lösenord
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Lösenord"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="confirmPass" className="col-sm-2 col-form-label">
-            Bekräfta lösenord
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPass"
-              placeholder="Bekräfta lösenord"
-              onChange={this.handleChange}
-            />
+          <div className="form-group row">
+            <label htmlFor="confirmPass" className="col-sm-2 col-form-label">
+              Bekräfta lösenord
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                placeholder="Bekräfta lösenord"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <button
-          disabled={this.state.invalidForm}
-          className="btn btn-primary"
-          type="submit"
-        >
-          Logga in
-        </button>
-      </form>
+          <button
+            disabled={this.state.invalidForm}
+            className="btn btn-block"
+            type="submit"
+          >
+            Logga in
+          </button>
+        </form>
+      </div>
     );
   }
 }

@@ -1,12 +1,138 @@
-input:focus {
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i");
+html,
+body {
+  height: 100%;
+  margin: 0 !important;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: url("/assets/images/bg.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+  overflow: auto;
+}
+
+.navbar-trans {
+  background: transparent;
+}
+
+#root {
+  height: 100%;
+}
+
+.register-container,
+.login-container {
+  height: 90% !important;
+  max-width: 100% !important;
+  position: relative;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.register-container::before,
+.login-container::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 500px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background: rgba(83, 83, 83, 0.548);
+}
+
+.registerForm,
+.loginForm {
+  top: 50%;
+  left: 50%;
+  display: block;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 70%;
+}
+
+.registerForm button.btn,
+.loginForm button.btn {
+  color: white;
+  font-weight: 700;
+  background-image: -webkit-gradient(linear, left top, right top, from(#2eff92), color-stop(#00f0b0), color-stop(#00dec4), color-stop(#00cccc), to(#00b8c9));
+  background-image: linear-gradient(to right, #2eff92, #00f0b0, #00dec4, #00cccc, #00b8c9);
+  text-transform: uppercase;
+  -webkit-box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8);
+          box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8);
+}
+
+.registerForm .user-exist,
+.loginForm .user-exist {
+  background: #ad0000;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 3px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.registerForm label,
+.loginForm label {
+  color: white;
+}
+
+.registerForm input,
+.loginForm input {
+  -webkit-box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8);
+          box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8);
+  background: #e9e9e9;
+}
+
+.registerForm input:focus,
+.loginForm input:focus {
   outline: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8) !important;
+          box-shadow: 2px 6px 8px rgba(19, 23, 29, 0.8) !important;
 }
 
-.registerForm input.invalid {
-  border: 2px solid red;
+.registerForm input.valid,
+.loginForm input.valid {
+  border: 3px solid green;
 }
 
-.registerForm input.valid {
-  border: 2px solid green;
+.registerForm input.invalid,
+.loginForm input.invalid {
+  border: 3px solid red;
 }
+
+.profile-page {
+  color: white;
+  text-align: center;
+  height: 90% !important;
+  position: relative;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+.profile-page .info {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background: rgba(15, 15, 15, 0.678);
+  width: 100%;
+  height: 500px;
+}
+
+.profile-page .info h1 {
+  font-size: 4rem;
+}
+
+.profile-page .info p {
+  font-size: 2rem;
+}
+/*# sourceMappingURL=style.css.map */

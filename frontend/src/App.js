@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from './components/Register';
-import './css/style.css';
+import Profile from './components/Profile';
 
 class App extends Component {
   state = {
@@ -15,9 +15,14 @@ class App extends Component {
   }
 
   login = formData => {
-    this.setState({
-      user: formData
-    });
+    // THIS IS A SIMULATED LOGIN. REMOVE LATER
+    fetch('http://localhost:4000/api/login')
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          user: res
+        });
+      });
   };
 
   checkIfLoggedIn = () => {
@@ -42,7 +47,14 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(res => {
-        this.setState(res);
+        if (res && res.success) {
+          this.setState({
+            user: res.user
+          });
+        } else {
+          console.log('Returning false');
+          return false;
+        }
         console.log(res);
       })
       .catch(err => console.log(err));
@@ -55,17 +67,9 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <Fragment>
           <Navigation user={this.state.user} />
-          {this.state.user ? (
-            <p>
-              You are:{' '}
-              {`${this.state.user.firstName} ${this.state.user.lastName}`}
-            </p>
-          ) : (
-            ''
-          )}
-          <div className="container">
+          <Fragment>
             <Switch>
               <Route
                 path="/login"
@@ -81,9 +85,14 @@ class App extends Component {
                   <Register user={this.state.user} register={this.register} />
                 )}
               />
+              <Route
+                path="/profil"
+                exact
+                component={() => <Profile user={this.state.user} />}
+              />
             </Switch>
-          </div>
-        </div>
+          </Fragment>
+        </Fragment>
       </Router>
     );
   }
