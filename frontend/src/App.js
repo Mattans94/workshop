@@ -1,29 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { PublicRoute, PrivateRoute } from 'react-router-with-props';
+import { connect } from 'react-redux';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 
 class App extends Component {
-  state = {
-    user: null
-  };
-
-  componentDidMount() {
-    // this.checkIfLoggedIn();
-  }
-
-  login = formData => {
-    // THIS IS A SIMULATED LOGIN. REMOVE LATER
-    fetch('http://localhost:4000/api/login')
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          user: res
-        });
-      });
-  };
+  // login = formData => {
+  //   // THIS IS A SIMULATED LOGIN. REMOVE LATER
+  //   fetch('http://localhost:4000/api/login')
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       this.setState({
+  //         user: res
+  //       });
+  //     });
+  // };
 
   checkIfLoggedIn = () => {
     const dummyData = {
@@ -60,42 +54,58 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
-
   render() {
+    const spinner = (
+      <div className="spinner">
+        <div className="rect1" />
+        <div className="rect2" />
+        <div className="rect3" />
+        <div className="rect4" />
+        <div className="rect5" />
+      </div>
+    );
     return (
       <Router>
         <Fragment>
-          <Navigation user={this.state.user} />
+          <Navigation />
           <Fragment>
             <Switch>
-              <Route
+              <PublicRoute
                 path="/login"
                 exact
-                component={() => (
-                  <Login login={this.login} user={this.state.user} />
-                )}
+                authed={this.props.isLoggedIn}
+                redirectTo="/profil"
+                component={Login}
               />
-              <Route
+              <PublicRoute
                 path="/register"
+                authed={this.props.isLoggedIn}
+                redirectTo="/profil"
                 exact
-                component={() => (
-                  <Register user={this.state.user} register={this.register} />
-                )}
+                component={Register}
               />
-              <Route
+              <PrivateRoute
                 path="/profil"
                 exact
-                component={() => <Profile user={this.state.user} />}
+                authed={this.props.isLoggedIn}
+                redirectTo="/login"
+                text="Vänligen logga in för att se din profil"
+                component={Profile}
               />
             </Switch>
           </Fragment>
+          {this.props.isLoading ? spinner : ''}
         </Fragment>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.isLoggedIn,
+    isLoading: state.loading
+  };
+};
+
+export default connect(mapStateToProps)(App);

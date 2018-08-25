@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Login extends Component {
+class Login extends Component {
   // Props: login
 
   state = {
@@ -17,14 +17,18 @@ export default class Login extends Component {
 
   handleSumbit = e => {
     e.preventDefault();
-    this.props.login(this.state);
+    this.props.setLoading(true);
+    fetch('http://localhost:4000/api/login')
+      .then(res => res.json())
+      .then(res => {
+        setTimeout(() => {
+          this.props.setLoading(false);
+          this.props.login(res);
+        }, 1000);
+      });
   };
 
   render() {
-    if (this.props.user) {
-      return <Redirect to="/profil" />;
-    }
-
     return (
       <div className="container login-container">
         <form onSubmit={this.handleSumbit} className="loginForm">
@@ -64,3 +68,21 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: user => dispatch({ type: 'LOGIN', payload: user }), //Send form data later on
+    setLoading: value => dispatch({ type: 'SET_LOADING', payload: value })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

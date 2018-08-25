@@ -1,10 +1,7 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Profile = ({ user }) => {
-  if (!user) {
-    return <Redirect to="/login" />;
-  }
   const date = new Date(user.registeredAt);
 
   const outputDate = `${date.getDate()}/${date.getMonth() +
@@ -23,4 +20,10 @@ const Profile = ({ user }) => {
   );
 };
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(Profile);
