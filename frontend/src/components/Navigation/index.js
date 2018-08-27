@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class Navigation extends Component {
@@ -23,7 +23,7 @@ class Navigation extends Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/" exact>
+              <NavLink className="nav-link" to="/register" exact>
                 Hem
               </NavLink>
             </li>
@@ -99,4 +99,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Navigation);
+/**
+ * @param withRouter
+ * @description To make nav links work properly, e.g the active class.
+ * @description This occurs only with Redux connected!
+ */
+export default withRouter(connect(mapStateToProps)(Navigation));
